@@ -34,14 +34,20 @@ public class StudentHomeWorkJdbc {
 
         int resultSet = 0;
         try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
+            connection.setAutoCommit(false);//不自动commit
             try (PreparedStatement a = connection.prepareStatement(sqlString)) {
                 a.setLong(1,student.getId());
                 a.setString(2,student.getName());
                 a.setTimestamp(3,new Timestamp(student.getCreateTime().getTime()));
                 resultSet = a.executeUpdate();
-
+                connection.commit();
+            }catch (SQLException exception){
+                System.out.println("数据写入失败");
+                connection.rollback();   //事务回滚
             }
+
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
         return resultSet >0;
@@ -60,13 +66,18 @@ public class StudentHomeWorkJdbc {
 
         int resultSet = 0;
         try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
+            connection.setAutoCommit(false);//设置不自动提交
+
             try (PreparedStatement a = connection.prepareStatement(sqlString)) {
                 a.setLong(1,homework.getId());
                 a.setString(2,homework.getTitle());
                 a.setTimestamp(3,new Timestamp(homework.getCreateTime().getTime()));
                 resultSet = a.executeUpdate();
-
+            }catch (SQLException exception){
+                System.out.println("数据写入失败");
+                connection.rollback();   //失败后事务回滚
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,6 +97,7 @@ public class StudentHomeWorkJdbc {
 
         int resultSet = 0;
         try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
+            connection.setAutoCommit(false);//不自动commit
             try (PreparedStatement a = connection.prepareStatement(sqlString)) {
                 a.setLong(1,studentHomework.getStudentId());
                 a.setLong(2,studentHomework.getHomeworkId());
@@ -93,7 +105,9 @@ public class StudentHomeWorkJdbc {
                 a.setString(4,studentHomework.getHomeworkContent());
                 a.setTimestamp(5,new Timestamp(studentHomework.getCreateTime().getTime()));
                 resultSet = a.executeUpdate();
-
+            }catch (SQLException exception){
+                System.out.println("数据写入失败");
+                connection.rollback();   //事务回滚
             }
         } catch (SQLException e) {
             e.printStackTrace();
