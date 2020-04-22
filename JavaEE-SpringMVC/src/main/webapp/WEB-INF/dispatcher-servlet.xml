@@ -7,4 +7,5 @@
 
     <context:component-scan base-package="org.example.spring.mvc.controller "/>
 
+
 </beans>

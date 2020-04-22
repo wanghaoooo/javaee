@@ -1,6 +1,6 @@
 <%@ page import="org.example.spring.mvc.model.*"%>
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.spring.mvc.jdbc.*"%>
+<%@ page import="org.example.spring.mvc.service.*"%>
 <%--
   Created by IntelliJ IDEA.
   User: gaike
@@ -117,7 +117,7 @@
 
                 <div class="am-g">
                     <div class="tpl-form-body tpl-form-line">
-                        <form  class="am-form tpl-form-line-form" action="/addstudent" method="post">
+                        <form  class="am-form tpl-form-line-form" action="${pageContext.request.contextPath}/addstudent" method="post">
                             <div class="am-form-group">
                                 <label for="user-name" class="am-u-sm-3 am-form-label">学号<span class="tpl-form-line-small-title"></span></label>
                                 <div class="am-u-sm-9">

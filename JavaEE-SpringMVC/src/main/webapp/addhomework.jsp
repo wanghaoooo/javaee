@@ -1,6 +1,6 @@
 <%@ page import="org.example.spring.mvc.model.*"%>
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.spring.mvc.jdbc.*"%>
+<%@ page import="org.example.spring.mvc.service.*"%>
 <%--
   Created by IntelliJ IDEA.
   User: gaike
@@ -9,7 +9,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <!doctype html>
 <html>
 
@@ -117,7 +116,7 @@
 
                 <div class="am-g">
                     <div class="tpl-form-body tpl-form-line">
-                        <form  class="am-form tpl-form-line-form" action="/addhomework" method="post">
+                        <form  class="am-form tpl-form-line-form" action="${pageContext.request.contextPath}/addhomework" method="post">
                             <div class="am-form-group">
                                 <label for="user-name" class="am-u-sm-3 am-form-label">作业号<span class="tpl-form-line-small-title"></span></label>
                                 <div class="am-u-sm-9">

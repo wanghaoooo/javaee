@@ -1,22 +1,104 @@
-package org.example.spring.mvc.jdbc;
+package org.example.spring.mvc.service;
 
 import org.example.spring.mvc.model.Homework;
 import org.example.spring.mvc.model.Student;
 import org.example.spring.mvc.model.StudentHomework;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class StudentHomeWorkJdbc {
 
     private static String url = "jdbc:mysql://127.0.0.1:3306/school?serverTimezone=UTC";
     private static String driverName = "com.mysql.cj.jdbc.Driver";
 
-    public static void main(String[] args) {
+    @Bean(name = "jdbc")
+    public StudentHomeWorkJdbc getJDBC() {
+        return new StudentHomeWorkJdbc();
+    }
 
+    //添加学生
+    public boolean addstudent(Student student){
+
+        try {
+            Class.forName(driverName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String sqlString = "insert into s_student (sid,name,create_time) values(?,?,?)";
+
+        int resultSet = 0;
+        try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
+            try (PreparedStatement a = connection.prepareStatement(sqlString)) {
+                a.setLong(1,student.getId());
+                a.setString(2,student.getName());
+                a.setTimestamp(3,new Timestamp(student.getCreateTime().getTime()));
+                resultSet = a.executeUpdate();
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet >0;
+    }
+
+    //老师布置作业
+    public boolean addhomework(Homework homework){
+
+        try {
+            Class.forName(driverName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String sqlString = "insert into s_homework (hid,title,create_time) values(?,?,?)";
+
+        int resultSet = 0;
+        try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
+            try (PreparedStatement a = connection.prepareStatement(sqlString)) {
+                a.setLong(1,homework.getId());
+                a.setString(2,homework.getTitle());
+                a.setTimestamp(3,new Timestamp(homework.getCreateTime().getTime()));
+                resultSet = a.executeUpdate();
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet >0;
+    }
+
+    //学生提交作业
+    public boolean addstudenthomework(StudentHomework studentHomework){
+
+        try {
+            Class.forName(driverName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String sqlString = "insert into s_student_homework (sid,hid,htitle,hcontent,create_time) values(?,?,?,?,?)";
+
+        int resultSet = 0;
+        try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
+            try (PreparedStatement a = connection.prepareStatement(sqlString)) {
+                a.setLong(1,studentHomework.getStudentId());
+                a.setLong(2,studentHomework.getHomeworkId());
+                a.setString(3,studentHomework.getHomeworkTitle());
+                a.setString(4,studentHomework.getHomeworkContent());
+                a.setTimestamp(5,new Timestamp(studentHomework.getCreateTime().getTime()));
+                resultSet = a.executeUpdate();
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet >0;
     }
 
     //获取全部学生作业信息
@@ -94,6 +176,7 @@ public class StudentHomeWorkJdbc {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         List<Homework> list = new ArrayList<>();
         try(Connection connection =  DriverManager.getConnection(url, "root", "wh13716612056")) {
             try(Statement statement = connection.createStatement()){
@@ -113,86 +196,6 @@ public class StudentHomeWorkJdbc {
             e.printStackTrace();
         }
         return list;
-    }
-
-    //添加学生
-    public static boolean addstudent(Student student){
-
-        try {
-            Class.forName(driverName);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String sqlString = "insert into s_student (sid,name,create_time) values(?,?,?)";
-
-        int resultSet = 0;
-        try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
-            try (PreparedStatement a = connection.prepareStatement(sqlString)) {
-                a.setLong(1,student.getId());
-                a.setString(2,student.getName());
-                a.setTimestamp(3,new Timestamp(student.getCreateTime().getTime()));
-                resultSet = a.executeUpdate();
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return resultSet >0;
-    }
-
-    //老师布置作业
-    public static boolean addhomework(Homework homework){
-
-        try {
-            Class.forName(driverName);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String sqlString = "insert into s_homework (hid,title,create_time) values(?,?,?)";
-
-        int resultSet = 0;
-        try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
-            try (PreparedStatement a = connection.prepareStatement(sqlString)) {
-                a.setLong(1,homework.getId());
-                a.setString(2,homework.getTitle());
-                a.setTimestamp(3,new Timestamp(homework.getCreateTime().getTime()));
-                resultSet = a.executeUpdate();
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return resultSet >0;
-    }
-
-    //学生提交作业
-    public static boolean addstudenthomework(StudentHomework studentHomework){
-
-        try {
-            Class.forName(driverName);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String sqlString = "insert into s_student_homework (sid,hid,htitle,hcontent,create_time) values(?,?,?,?,?)";
-
-        int resultSet = 0;
-        try (Connection connection = DriverManager.getConnection(url, "root", "wh13716612056")) {
-            try (PreparedStatement a = connection.prepareStatement(sqlString)) {
-                a.setLong(1,studentHomework.getStudentId());
-                a.setLong(2,studentHomework.getHomeworkId());
-                a.setString(3,studentHomework.getHomeworkTitle());
-                a.setString(4,studentHomework.getHomeworkContent());
-                a.setTimestamp(5,new Timestamp(studentHomework.getCreateTime().getTime()));
-                resultSet = a.executeUpdate();
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return resultSet >0;
     }
 
 

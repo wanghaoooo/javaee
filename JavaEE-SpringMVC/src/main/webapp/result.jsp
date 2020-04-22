@@ -1,6 +1,6 @@
 <%@ page import="org.example.spring.mvc.model.*"%>
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.spring.mvc.jdbc.*"%>
+<%@ page import="org.example.spring.mvc.service.*"%>
 <%--
   Created by IntelliJ IDEA.
   User: gaike
@@ -184,7 +184,7 @@
                                 </thead>
 
                                 <%
-                                    List<StudentHomework> list = StudentHomeWorkJdbc.selectstudenthomework();
+                                    List<StudentHomework> list = (List<StudentHomework>)request.getAttribute("list");
                                     if(null == list || list.size() <= 0){
                                     }else {
                                         for (StudentHomework sh : list){

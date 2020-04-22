@@ -1,6 +1,5 @@
 package org.example.spring.mvc.controller;
-
-import org.example.spring.mvc.jdbc.StudentHomeWorkJdbc;
+import org.example.spring.mvc.service.StudentHomeWorkJdbc;
 import org.example.spring.mvc.model.Homework;
 import org.example.spring.mvc.model.Student;
 import org.example.spring.mvc.model.StudentHomework;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,12 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 public class ApiController {
 
-    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(org.example.spring.mvc.jdbc.StudentHomeWorkJdbc.class);
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(org.example.spring.mvc.service.StudentHomeWorkJdbc.class);
     StudentHomeWorkJdbc jdbc = (StudentHomeWorkJdbc) applicationContext.getBean("jdbc");
 
     @RequestMapping(path = "/addhomework", method = RequestMethod.POST)
@@ -42,7 +39,7 @@ public class ApiController {
         homework.setTitle(request.getParameter("title"));
         Date date = new Date();
         homework.setCreateTime(date);
-        boolean result = StudentHomeWorkJdbc.addhomework(homework);
+        boolean result = jdbc.addhomework(homework);
 
         request.setAttribute("isOK", result);    //用来判断是否添加作业成功
         request.setAttribute("type","addHomework");
@@ -71,7 +68,7 @@ public class ApiController {
         student.setName(req.getParameter("name"));
         Date date = new Date();
         student.setCreateTime(date);
-        boolean result = StudentHomeWorkJdbc.addstudent(student);
+        boolean result = jdbc.addstudent(student);
         req.setAttribute("isOK", result);  //用来判断是否添加作业成功
         req.setAttribute("type","addStudent");
 
@@ -84,7 +81,7 @@ public class ApiController {
         }
     }
 
-    @RequestMapping(path = "/addstudent", method = RequestMethod.POST)
+    @RequestMapping(path = "/addstudenthomework", method = RequestMethod.POST)
     public void addstudenthomwork(){
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest req = attributes.getRequest();
@@ -102,7 +99,7 @@ public class ApiController {
         studentHomework.setHomeworkContent(req.getParameter("hcontent"));
         Date date = new Date();
         studentHomework.setCreateTime(date);
-        boolean result = StudentHomeWorkJdbc.addstudenthomework(studentHomework);
+        boolean result = jdbc.addstudenthomework(studentHomework);
         req.setAttribute("isOK", result);  //用来判断是否添加作业成功
         req.setAttribute("type","addStudentHomework");
 

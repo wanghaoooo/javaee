@@ -1,13 +1,12 @@
-package org.example.spring.mvc.jdbc;
-
+package org.example.spring.mvc.service;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class DatabasePool {
 
-    private static HikariDataSource hikariDataSource;
+    private  HikariDataSource hikariDataSource;
 
-    public static HikariDataSource getHikariDataSource(){
+    public  HikariDataSource getHikariDataSource(){
 
         if(null != hikariDataSource){
             return hikariDataSource;
@@ -30,7 +29,7 @@ public class DatabasePool {
         return hikariDataSource;
     }
 
-    public static void main(String[] args) {
+    public  void main(String[] args) {
         while (true){
             getHikariDataSource();
 //            try {
