@@ -1,10 +1,10 @@
 package org.example.spring.mvc.controller;
-import org.example.spring.mvc.service.StudentHomeWorkJdbc;
+
 import org.example.spring.mvc.model.Homework;
 import org.example.spring.mvc.model.Student;
 import org.example.spring.mvc.model.StudentHomework;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.example.spring.mvc.service.AllService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +21,11 @@ import java.util.Date;
 @Controller
 public class ApiController {
 
-    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(org.example.spring.mvc.service.StudentHomeWorkJdbc.class);
-    StudentHomeWorkJdbc jdbc = (StudentHomeWorkJdbc) applicationContext.getBean("jdbc");
+    private final AllService allService;
+    @Autowired
+    public ApiController(AllService allService) {
+        this.allService = allService;
+    }
 
     @RequestMapping(path = "/addhomework", method = RequestMethod.POST)
     public void addhomework(){
@@ -39,9 +42,10 @@ public class ApiController {
         homework.setTitle(request.getParameter("title"));
         Date date = new Date();
         homework.setCreateTime(date);
-        boolean result = jdbc.addhomework(homework);
+        boolean result = allService.addHomework(request);
 
-        request.setAttribute("isOK", result);    //用来判断是否添加作业成功
+        //用来判断是否添加作业成功
+        request.setAttribute("isOK", result);
         request.setAttribute("type","addHomework");
         try {
             request.getRequestDispatcher("result.jsp").forward(request,resp);
@@ -68,7 +72,7 @@ public class ApiController {
         student.setName(req.getParameter("name"));
         Date date = new Date();
         student.setCreateTime(date);
-        boolean result = jdbc.addstudent(student);
+        boolean result = allService.addStudent(req);
         req.setAttribute("isOK", result);  //用来判断是否添加作业成功
         req.setAttribute("type","addStudent");
 
@@ -99,7 +103,7 @@ public class ApiController {
         studentHomework.setHomeworkContent(req.getParameter("hcontent"));
         Date date = new Date();
         studentHomework.setCreateTime(date);
-        boolean result = jdbc.addstudenthomework(studentHomework);
+        boolean result = allService.addHomework(req);
         req.setAttribute("isOK", result);  //用来判断是否添加作业成功
         req.setAttribute("type","addStudentHomework");
 

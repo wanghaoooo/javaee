@@ -207,7 +207,7 @@
                                 </thead>
 
                                 <%
-                                    List<Homework> list = StudentHomeWorkJdbc.selecthomework();
+                                    List<Homework> list = Service.selecthomework();
                                     if(null == list || list.size() <= 0){
                                     }else {
                                         for (Homework s : list){

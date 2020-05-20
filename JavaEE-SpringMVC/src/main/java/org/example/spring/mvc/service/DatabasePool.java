@@ -4,9 +4,9 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public class DatabasePool {
 
-    private  HikariDataSource hikariDataSource;
+    private static HikariDataSource hikariDataSource;
 
-    public  HikariDataSource getHikariDataSource(){
+    public static HikariDataSource getHikariDataSource(){
 
         if(null != hikariDataSource){
             return hikariDataSource;
@@ -32,14 +32,7 @@ public class DatabasePool {
     public  void main(String[] args) {
         while (true){
             getHikariDataSource();
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
-
-
     }
 
 }

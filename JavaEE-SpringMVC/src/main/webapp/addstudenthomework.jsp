@@ -124,7 +124,7 @@
 
                                     <select name="sid">
                                         <%
-                                            List<Student> list = StudentHomeWorkJdbc.selectstudent();
+                                            List<Student> list = Service.selectstudent();
                                             if(null == list || list.size() <= 0){
                                             }else {
                                                 for (Student s : list){
@@ -145,7 +145,7 @@
                                 <div class="am-u-sm-9">
                                     <select name="hid">
                                         <%
-                                            List<Homework> list1 = StudentHomeWorkJdbc.selecthomework();
+                                            List<Homework> list1 = Service.selecthomework();
                                             if(null == list1 || list1.size() <= 0){
                                             }else {
                                                 for (Homework h : list1){
