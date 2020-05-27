@@ -44,11 +44,6 @@ public class StudentHomeworkDaoImpl implements StudentHomeworkDao {
     }
 
     @Override
-    public boolean edit(StudentHomework studentHomework) {
-        return false;
-    }
-
-    @Override
     public List<StudentHomework> getAll(String id) {
         String sqlString = "SELECT * FROM s_student_homework WHERE homework_id=" + id;
 
